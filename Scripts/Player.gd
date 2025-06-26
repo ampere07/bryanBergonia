@@ -1,11 +1,9 @@
 #Player.gd
 extends CharacterBody2D
-
 const GRAVITY = 980.0
 const JUMP_VELOCITY = -500.0
 const DOUBLE_JUMP_VELOCITY = -450.0  # Slightly weaker than first jump
 const FAST_FALL_MULTIPLIER = 2.0
-
 var is_dead = false
 var is_jumping = false
 var jump_count = 0  # Track number of jumps
@@ -27,7 +25,10 @@ func _ready():
 		print("Warning: No AnimatedSprite2D found!")
 
 func _physics_process(delta):
+	# If dead, only apply gravity and movement - skip all input
 	if is_dead:
+		velocity.y += GRAVITY * delta
+		move_and_slide()
 		return
 	
 	# Add gravity
@@ -49,6 +50,14 @@ func _physics_process(delta):
 	
 	# Handle jump and double jump
 	if Input.is_action_just_pressed("jump") and jump_count < max_jumps:
+		# Play jump sound effect using path
+		var jump_sound = get_node_or_null("../JumpSoundFx")
+		if jump_sound and jump_sound is AudioStreamPlayer:
+			jump_sound.play()
+			print("Playing jump sound!")
+		else:
+			print("Warning: JumpSoundFx not found at ../JumpSoundFx")
+		
 		if jump_count == 0:
 			# First jump (from ground or coyote time)
 			velocity.y = JUMP_VELOCITY
@@ -77,27 +86,38 @@ func die():
 	is_dead = true
 	print("Player died!")
 	
-	# Stop horizontal movement
+	# Stop horizontal movement but allow vertical falling
 	velocity.x = 0
+	# Give a small downward push to ensure falling starts
+	if velocity.y >= 0:  # If not already falling
+		velocity.y = 200  # Start falling
 	
-	# Play death animation if available
+	# Start both death sound and animation simultaneously
+	var dead_fx = get_node_or_null("../DeadFx")
+	if dead_fx and dead_fx is AudioStreamPlayer:
+		dead_fx.play()
+		print("Playing death sound effect!")
+	else:
+		print("Warning: DeadFx not found at ../DeadFx")
+	
+	# Start death animation at the same time
 	if animated_sprite:
 		if animated_sprite.sprite_frames.has_animation("dead"):
 			animated_sprite.play("dead")
-			# Wait for death animation to finish
-			await animated_sprite.animation_finished
 		elif animated_sprite.sprite_frames.has_animation("idle"):
 			animated_sprite.play("idle")
-			await animated_sprite.animation_finished
 		else:
 			animated_sprite.stop()
-			# If no death animation, wait a short moment
-			await get_tree().create_timer(0.5).timeout
+	
+	# Wait for the death sound to finish (since it's longer than animation)
+	if dead_fx and dead_fx is AudioStreamPlayer:
+		await dead_fx.finished
+		print("Death sound finished playing")
 	else:
-		# No animated sprite, wait a moment
+		# If no sound found, wait a short moment
 		await get_tree().create_timer(0.5).timeout
 	
-	# Call game over in GameManager after animation finishes
+	# Call game over in GameManager after sound finishes
 	var game_manager = get_tree().get_first_node_in_group("game_manager")
 	if game_manager:
 		game_manager.game_over()

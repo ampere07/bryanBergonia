@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://e5lg7yfqb30m"]
+[gd_scene load_steps=4 format=3 uid="uid://e5lg7yfqb30m"]
 
 [ext_resource type="Script" uid="uid://btfhc22nd3h8q" path="res://Scripts/victoryscene.gd" id="1_coslg"]
 [ext_resource type="Texture2D" uid="uid://bpvl7whjwveuj" path="res://Assets/background/victory.png" id="2_6didx"]
+[ext_resource type="AudioStream" uid="uid://c5nb33ssxo378" path="res://Assets/soundeffects/winningFx.mp3" id="3_6didx"]
 
 [node name="Victoryscene" type="Node2D"]
 script = ExtResource("1_coslg")
@@ -24,6 +25,10 @@ offset_top = 429.0
 offset_right = 646.0
 offset_bottom = 476.0
 text = "Restart"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6didx")
+autoplay = true
 
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

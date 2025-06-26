@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1osbq3iloikr"]
+[gd_scene load_steps=4 format=3 uid="uid://c1osbq3iloikr"]
 
 [ext_resource type="Texture2D" uid="uid://kan3n7opwy1v" path="res://Assets/background/Astro runner.png" id="1_5kvvq"]
 [ext_resource type="Script" uid="uid://clj3126la6sg7" path="res://Scripts/mainmenu.gd" id="1_vowho"]
+[ext_resource type="AudioStream" uid="uid://citnxx8sqlcds" path="res://Assets/soundeffects/mainmenu.mp3" id="3_rv1bs"]
 
 [node name="Mainmenu" type="Node2D"]
 script = ExtResource("1_vowho")
@@ -31,6 +32,10 @@ offset_top = 539.0
 offset_right = 628.0
 offset_bottom = 587.0
 text = "Quit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_rv1bs")
+autoplay = true
 
 [connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="Controls" to="." method="_on_controls_pressed"]

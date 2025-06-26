@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://ebrqkki2iuhp"]
+[gd_scene load_steps=40 format=3 uid="uid://ebrqkki2iuhp"]
 
 [ext_resource type="Script" uid="uid://b6kbaq8pvdl7x" path="res://Scripts/FirstScene/GameManager.gd" id="1_kghrr"]
 [ext_resource type="Script" uid="uid://3ywxw3rrlxnm" path="res://Scripts/Player.gd" id="1_n874j"]
@@ -28,8 +28,12 @@
 [ext_resource type="Texture2D" uid="uid://db6awrt703edg" path="res://Assets/character/Jump (13).png" id="17_5qxgh"]
 [ext_resource type="Texture2D" uid="uid://bgtdb3fy7qbgt" path="res://Assets/character/Jump (15).png" id="18_2r077"]
 [ext_resource type="Texture2D" uid="uid://syvu4vlium6o" path="res://Assets/character/Run (15).png" id="18_qfgnl"]
+[ext_resource type="AudioStream" uid="uid://but4dcbqyplpd" path="res://Assets/soundeffects/mainscene1.mp3" id="32_fj27t"]
 [ext_resource type="Script" uid="uid://b8ls68d5lh12d" path="res://Scripts/FirstScene/ScrollingFloor.gd" id="32_n874j"]
 [ext_resource type="Texture2D" uid="uid://y303d7dlvkwn" path="res://Assets/background/PNG/game_background_1/game_background_1.png" id="33_n874j"]
+[ext_resource type="AudioStream" uid="uid://dwvqne53mufk5" path="res://Assets/soundeffects/jumpsoundeffect.mp3" id="33_orc3d"]
+[ext_resource type="AudioStream" uid="uid://b5jwlu3xbfife" path="res://Assets/soundeffects/100scoreFx.mp3" id="34_orc3d"]
+[ext_resource type="AudioStream" uid="uid://0ddtn2yeid7j" path="res://Assets/soundeffects/deadfx (mp3cut.net).mp3" id="35_5qxgh"]
 [ext_resource type="PackedScene" uid="uid://ci6rlk7q0ns8m" path="res://Scene/Obstacle.tscn" id="36_2r077"]
 
 [sub_resource type="GDScript" id="GDScript_r1w07"]
@@ -199,3 +203,19 @@ offset_bottom = 90.0
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("32_fj27t")
+volume_db = -5.622
+autoplay = true
+
+[node name="JumpSoundFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("33_orc3d")
+volume_db = -5.622
+
+[node name="100ScoreFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("34_orc3d")
+volume_db = -16.865
+
+[node name="DeadFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_5qxgh")

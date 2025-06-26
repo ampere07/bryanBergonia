@@ -1,6 +1,6 @@
 [gd_scene load_steps=43 format=3 uid="uid://b20vvvxnc7g30"]
 
-[ext_resource type="Script" uid="uid://cxsgq188b5pr4" path="res://Scripts/SecondScene/Obstacle2.gd" id="1_berug"]
+[ext_resource type="Script" uid="uid://db3nw7i6jh6hn" path="res://Scripts/SecondScene/Obstacle2.gd" id="1_berug"]
 [ext_resource type="Texture2D" uid="uid://cklt6bbxh10bf" path="res://Assets/Eneny/Enemies/Ghost/Idle (44x30).png" id="4_3dgvv"]
 [ext_resource type="Texture2D" uid="uid://cb82k6eqakpeo" path="res://Assets/Eneny/Enemies/Bat/Flying (46x30).png" id="5_vbe0p"]
 [ext_resource type="Texture2D" uid="uid://joqxfdxtsskb" path="res://Assets/Eneny/Enemies/Slime/Idle-Run (44x30).png" id="8_esfq2"]

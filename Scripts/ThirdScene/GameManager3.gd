@@ -1,8 +1,9 @@
 extends Node
 
 var score = 0
-var game_speed = 2.2  # Speed multiplier
+var game_speed = 1.0  # Speed multiplier
 var base_obstacle_speed = 400.0  # Base speed for obstacles
+var is_game_over = false  # Track if game is over
 
 @onready var score_label = $"./ScoreLabel"
 @onready var obstacle_spawner = $"./ObstacleSpawner"
@@ -55,12 +56,12 @@ func _create_pause_button():
 	pause_button.size = Vector2(40, 40)
 	pause_button.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	pause_button.add_theme_font_size_override("font_size", 16)
-	pause_button.mouse_filter = Control.MOUSE_FILTER_STOP  # Ensure it receives mouse events
+	pause_button.mouse_filter = Control.MOUSE_FILTER_STOP
 	pause_button.focus_mode = Control.FOCUS_ALL
 	ui_layer.add_child(pause_button)
 	
 	# Debug: Make button more visible
-	pause_button.modulate = Color(1, 1, 1, 1)  # Fully opaque
+	pause_button.modulate = Color(1, 1, 1, 1)
 	
 	# Connect pause button with debug
 	if pause_button.pressed.connect(_on_pause_pressed) == OK:
@@ -81,20 +82,32 @@ func _create_pause_button():
 	print("UI Layer: ", ui_layer.layer)
 
 func _increase_score():
+	# Don't increase score if game is over
+	if is_game_over:
+		return
+		
 	score += 1
 	if score_label:
 		score_label.text = "Score: " + str(score)
 	
-	# Check if score reached 2500 to change scene
-	if score >= 100:
-		print("Score reached 2500! Changing to main_scene2...")
-		get_tree().paused = false  # Unpause before changing scene
+	# Check if score reached 300 to change scene
+	if score >= 1000:
+		print("Score reached 1000! Changing to mission complete scene...")
+		get_tree().paused = false
 		get_tree().change_scene_to_file("res://Scene/victoryscene.tscn")
 		return
 	
-	# Increase game speed every 100 points
-	if score % 100 == 0:
-		game_speed += 0.2  # Changed from 0.1 to 0.2
+	# Play sound and increase game speed every 100 points
+	if score % 100 == 0 and score > 0:
+		# Play the 100 score sound effect
+		var sound_fx = get_node_or_null("./100ScoreFx")
+		if sound_fx and sound_fx is AudioStreamPlayer:
+			sound_fx.play()
+			print("Playing 100 score sound effect at score: ", score)
+		else:
+			print("Warning: 100ScoreFx AudioStreamPlayer not found!")
+		
+		game_speed += 0.2
 		print("Game speed increased to: ", game_speed)
 		
 		# Update obstacle spawner timing if it exists
@@ -109,10 +122,33 @@ func get_current_obstacle_speed():
 
 func game_over():
 	print("Game Over! Final Score: ", score)
-	# Show game over screen instead of pause menu
+	
+	# Mark game as over to stop all game mechanics
+	is_game_over = true
+	
+	# Stop obstacle spawner
+	if obstacle_spawner and obstacle_spawner.has_method("stop_spawning"):
+		obstacle_spawner.stop_spawning()
+	
+	# Stop/freeze all obstacles
+	get_tree().call_group("obstacles", "stop_movement")
+	
+	# Stop background scrolling
+	get_tree().call_group("background", "stop_scrolling")
+	
+	# Stop any other moving elements
+	get_tree().call_group("moving_elements", "stop_movement")
+	
+	print("All game elements stopped")
+	
+	# Show game over screen
 	_show_game_over_menu()
 
 func _on_pause_pressed():
+	# Don't allow pause if game is over
+	if is_game_over:
+		return
+		
 	print("Pausing game...")
 	get_tree().paused = true
 	pause_button.hide()
@@ -125,7 +161,7 @@ func _on_pause_pressed():
 	# Create pause menu container
 	pause_menu_container = Control.new()
 	pause_menu_container.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	pause_menu_container.set_meta("is_pause_menu", true)  # Mark it for identification
+	pause_menu_container.set_meta("is_pause_menu", true)
 	ui_layer.add_child(pause_menu_container)
 	
 	# Create dark overlay
@@ -189,6 +225,9 @@ func _on_resume_pressed():
 func _on_restart_pressed():
 	print("Restarting game...")
 	
+	# Reset game over state
+	is_game_over = false
+	
 	# Force remove all UI elements
 	if ui_layer and is_instance_valid(ui_layer):
 		ui_layer.queue_free()
@@ -209,7 +248,6 @@ func _on_main_menu_pressed():
 	print("Going to main menu...")
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scene/mainmenu.tscn")
-	print("Add your main menu scene path above")
 
 func _show_game_over_menu():
 	# Hide pause button when game over
@@ -235,7 +273,7 @@ func _show_game_over_menu():
 	
 	# Create game over panel
 	var go_panel = Panel.new()
-	go_panel.size = Vector2(400, 300)
+	go_panel.size = Vector2(400, 350)
 	var viewport_size = get_viewport().size
 	go_panel.position = Vector2(
 		(viewport_size.x - go_panel.size.x) / 2,
@@ -266,11 +304,29 @@ func _show_game_over_menu():
 	go_panel.add_child(go_restart)
 	go_restart.pressed.connect(_on_restart_pressed)
 	
+	# Main Menu button
+	var go_main_menu = Button.new()
+	go_main_menu.text = "MAIN MENU"
+	go_main_menu.position = Vector2(100, 250)
+	go_main_menu.size = Vector2(200, 50)
+	go_main_menu.add_theme_font_size_override("font_size", 18)
+	go_panel.add_child(go_main_menu)
+	go_main_menu.pressed.connect(_on_game_over_main_menu)
+	
 	# Pause the game
 	get_tree().paused = true
 
+func _on_game_over_main_menu():
+	print("Going to main menu from game over...")
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Scene/mainmenu.tscn")
+
 # Handle ESC key for pause
 func _input(event):
+	# Don't allow pause input if game is over
+	if is_game_over:
+		return
+		
 	# Debug mouse clicks
 	if event is InputEventMouseButton and event.pressed:
 		print("Mouse clicked at: ", event.position)

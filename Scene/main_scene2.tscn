@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://rvf1frv40eyt"]
+[gd_scene load_steps=40 format=3 uid="uid://b0s0gsv71mewi"]
 
 [ext_resource type="Script" uid="uid://hljdkkwms7ol" path="res://Scripts/SecondScene/GameManager2.gd" id="1_5n27t"]
 [ext_resource type="Texture2D" uid="uid://8kwxupbystpt" path="res://Assets/background/PNG/game_background_3/game_background_3.1.png" id="2_5n27t"]
@@ -30,7 +30,23 @@
 [ext_resource type="Texture2D" uid="uid://syvu4vlium6o" path="res://Assets/character/Run (15).png" id="28_ybgoi"]
 [ext_resource type="Script" uid="uid://dfmd34xli3oxi" path="res://Scripts/SecondScene/ObstacleSpawner2.gd" id="29_vtpc2"]
 [ext_resource type="PackedScene" uid="uid://b20vvvxnc7g30" path="res://Scene/Obstacle2.tscn" id="30_5n27t"]
-[ext_resource type="Script" uid="uid://hoc26oxc6ytq" path="res://Scripts/SecondScene/ScrollingFloor2.gd" id="30_vtpc2"]
+[ext_resource type="Script" uid="uid://b8ls68d5lh12d" path="res://Scripts/FirstScene/ScrollingFloor.gd" id="31_e8sbu"]
+[ext_resource type="AudioStream" uid="uid://bpyeutyvywqfr" path="res://Assets/soundeffects/mainscene2.mp3" id="32_ksyja"]
+[ext_resource type="AudioStream" uid="uid://dwvqne53mufk5" path="res://Assets/soundeffects/jumpsoundeffect.mp3" id="33_66851"]
+[ext_resource type="AudioStream" uid="uid://b5jwlu3xbfife" path="res://Assets/soundeffects/100scoreFx.mp3" id="34_p5aqc"]
+[ext_resource type="AudioStream" uid="uid://0ddtn2yeid7j" path="res://Assets/soundeffects/deadfx (mp3cut.net).mp3" id="35_wgmtj"]
+
+[sub_resource type="GDScript" id="GDScript_r1w07"]
+script/source = "#ParallaxBackground2.gd
+extends ParallaxBackground
+
+# Scroll speed for the background
+@export var scroll_speed = 50.0  # Pixels per second
+
+func _process(delta):
+	# Move the background left
+	scroll_offset.x -= scroll_speed * delta
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4qrl"]
 size = Vector2(1174, 61)
@@ -136,6 +152,7 @@ animations = [{
 script = ExtResource("1_5n27t")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = SubResource("GDScript_r1w07")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2(583, 330)
@@ -175,8 +192,8 @@ script = ExtResource("29_vtpc2")
 obstacle_scene = ExtResource("30_5n27t")
 
 [node name="ScrollingFloor" type="Node2D" parent="."]
-position = Vector2(559, 777)
-script = ExtResource("30_vtpc2")
+position = Vector2(569, 668)
+script = ExtResource("31_e8sbu")
 
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = 933.0
@@ -186,3 +203,19 @@ offset_bottom = 90.0
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("32_ksyja")
+volume_db = -5.622
+autoplay = true
+
+[node name="JumpSoundFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("33_66851")
+volume_db = -5.622
+
+[node name="100ScoreFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("34_p5aqc")
+volume_db = -16.865
+
+[node name="DeadFx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_wgmtj")

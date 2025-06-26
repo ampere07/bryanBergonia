@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddy43lfh5w3um"]
+[gd_scene load_steps=4 format=3 uid="uid://ddy43lfh5w3um"]
 
 [ext_resource type="Script" uid="uid://dl8l8k5382bd" path="res://Scripts/mission_complete2.gd" id="1_ck2s1"]
 [ext_resource type="Texture2D" uid="uid://bax07cib8hpig" path="res://Assets/background/missionComplete.png" id="2_qmgck"]
+[ext_resource type="AudioStream" uid="uid://cpe2ji2p5n3u2" path="res://Assets/soundeffects/missioncomplete.mp3" id="3_qmgck"]
 
 [node name="MissionComplete1" type="Node2D"]
 script = ExtResource("1_ck2s1")
@@ -26,6 +27,10 @@ offset_right = 544.0
 offset_bottom = 604.0
 theme_override_font_sizes/font_size = 25
 text = "Main Menu"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_qmgck")
+autoplay = true
 
 [connection signal="pressed" from="NextLevel" to="." method="_on_next_level_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
