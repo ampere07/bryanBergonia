@@ -311,4 +311,4 @@ position = Vector2(1.5, 8)
 scale = Vector2(-1.45371, 1.38782)
 sprite_frames = SubResource("SpriteFrames_ps502")
 animation = &"flying1"
-frame_progress = 0.600629
+frame_progress = 0.397707

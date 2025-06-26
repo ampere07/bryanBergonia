@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://dx3u2crjapgxv"]
 
-[ext_resource type="Script" uid="uid://b6kbaq8pvdl7x" path="res://Scripts/FirstScene/GameManager.gd" id="1_t0j33"]
-[ext_resource type="Texture2D" uid="uid://y303d7dlvkwn" path="res://Assets/background/PNG/game_background_1/game_background_1.png" id="2_kaybf"]
+[ext_resource type="Script" uid="uid://ce7xoh3ox7ker" path="res://Scripts/ThirdScene/GameManager3.gd" id="1_t0j33"]
+[ext_resource type="Texture2D" uid="uid://djrdya7val755" path="res://Assets/background/PNG/game_background_4/game_background_4.png" id="2_t0j33"]
 [ext_resource type="Script" uid="uid://3ywxw3rrlxnm" path="res://Scripts/Player.gd" id="3_p3fp5"]
 [ext_resource type="Texture2D" uid="uid://bw03ykmauiigk" path="res://Assets/character/Dead (1).png" id="4_ip58t"]
 [ext_resource type="Texture2D" uid="uid://do33831vah18" path="res://Assets/character/Dead (3).png" id="5_51s7g"]
@@ -144,7 +144,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="MainScene" type="Node2D"]
+[node name="MainScene3" type="Node2D"]
 script = ExtResource("1_t0j33")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
@@ -158,7 +158,7 @@ motion_mirroring = Vector2(1750, 0)
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 position = Vector2(309, -109)
 scale = Vector2(0.935417, 1.02037)
-texture = ExtResource("2_kaybf")
+texture = ExtResource("2_t0j33")
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(606, 632)

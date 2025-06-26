@@ -1,7 +1,7 @@
 extends Node
 
 var score = 0
-var game_speed = 1.8  # Speed multiplier
+var game_speed = 2.2  # Speed multiplier
 var base_obstacle_speed = 400.0  # Base speed for obstacles
 
 @onready var score_label = $"./ScoreLabel"
@@ -87,9 +87,9 @@ func _increase_score():
 	
 	# Check if score reached 2500 to change scene
 	if score >= 100:
-		print("Score reached 2500! Changing to main_scene3...")
+		print("Score reached 2500! Changing to main_scene2...")
 		get_tree().paused = false  # Unpause before changing scene
-		get_tree().change_scene_to_file("res://Scene/missionComplete2.tscn")
+		get_tree().change_scene_to_file("res://Scene/victoryscene.tscn")
 		return
 	
 	# Increase game speed every 100 points

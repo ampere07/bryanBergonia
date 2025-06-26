@@ -75,7 +75,7 @@ func die():
 		return  # Prevent multiple death calls
 		
 	is_dead = true
-	print("Game Over!")
+	print("Player died!")
 	
 	# Stop horizontal movement
 	velocity.x = 0
@@ -84,11 +84,25 @@ func die():
 	if animated_sprite:
 		if animated_sprite.sprite_frames.has_animation("dead"):
 			animated_sprite.play("dead")
+			# Wait for death animation to finish
+			await animated_sprite.animation_finished
 		elif animated_sprite.sprite_frames.has_animation("idle"):
 			animated_sprite.play("idle")
+			await animated_sprite.animation_finished
 		else:
 			animated_sprite.stop()
+			# If no death animation, wait a short moment
+			await get_tree().create_timer(0.5).timeout
+	else:
+		# No animated sprite, wait a moment
+		await get_tree().create_timer(0.5).timeout
 	
-	# Restart after delay
-	await get_tree().create_timer(1.0).timeout
-	get_tree().reload_current_scene()
+	# Call game over in GameManager after animation finishes
+	var game_manager = get_tree().get_first_node_in_group("game_manager")
+	if game_manager:
+		game_manager.game_over()
+	else:
+		print("ERROR: GameManager not found!")
+		# Fallback: restart after delay
+		await get_tree().create_timer(1.0).timeout
+		get_tree().reload_current_scene()

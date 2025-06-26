@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1osbq3iloikr"]
+
+[ext_resource type="Texture2D" uid="uid://kan3n7opwy1v" path="res://Assets/background/Astro runner.png" id="1_5kvvq"]
+[ext_resource type="Script" uid="uid://clj3126la6sg7" path="res://Scripts/mainmenu.gd" id="1_vowho"]
+
+[node name="Mainmenu" type="Node2D"]
+script = ExtResource("1_vowho")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(574.7, 323.625)
+scale = Vector2(0.998785, 0.998071)
+texture = ExtResource("1_5kvvq")
+
+[node name="StartGame" type="Button" parent="."]
+offset_left = 505.0
+offset_top = 430.0
+offset_right = 629.0
+offset_bottom = 479.0
+text = "Start Game"
+
+[node name="Controls" type="Button" parent="."]
+offset_left = 507.0
+offset_top = 485.0
+offset_right = 628.0
+offset_bottom = 533.0
+text = "Controls"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 507.0
+offset_top = 539.0
+offset_right = 628.0
+offset_bottom = 587.0
+text = "Quit"
+
+[connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="Controls" to="." method="_on_controls_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

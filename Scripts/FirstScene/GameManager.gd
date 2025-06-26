@@ -32,10 +32,17 @@ func _ready():
 	call_deferred("_create_pause_button")
 
 func _create_pause_button():
+	# First, check if UILayer already exists and remove it
+	var existing_ui = get_parent().get_node_or_null("UILayer")
+	if existing_ui:
+		existing_ui.queue_free()
+		await get_tree().process_frame
+	
 	# Create a CanvasLayer for UI as a sibling of GameManager
 	ui_layer = CanvasLayer.new()
 	ui_layer.name = "UILayer"
 	ui_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	ui_layer.layer = 100  # Make sure it's on top
 	get_parent().call_deferred("add_child", ui_layer)
 	
 	# Wait for the layer to be added
@@ -43,27 +50,59 @@ func _create_pause_button():
 	
 	# Create pause button
 	pause_button = Button.new()
-	pause_button.text = "PAUSE"
+	pause_button.text = "||"
 	pause_button.position = Vector2(10, 10)
-	pause_button.size = Vector2(100, 40)
+	pause_button.size = Vector2(40, 40)
 	pause_button.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	pause_button.add_theme_font_size_override("font_size", 16)
+	pause_button.mouse_filter = Control.MOUSE_FILTER_STOP  # Ensure it receives mouse events
+	pause_button.focus_mode = Control.FOCUS_ALL
 	ui_layer.add_child(pause_button)
 	
-	# Connect pause button
-	pause_button.pressed.connect(_on_pause_pressed)
+	# Debug: Make button more visible
+	pause_button.modulate = Color(1, 1, 1, 1)  # Fully opaque
 	
-	print("Pause button created in GameManager")
+	# Connect pause button with debug
+	if pause_button.pressed.connect(_on_pause_pressed) == OK:
+		print("Pause button signal connected successfully")
+	else:
+		print("ERROR: Failed to connect pause button signal")
+	
+	# Also add button_down as backup
+	pause_button.button_down.connect(func(): print("Button down detected"))
+	pause_button.button_up.connect(func(): print("Button up detected"))
+	
+	# Add mouse entered/exited for debug
+	pause_button.mouse_entered.connect(func(): print("Mouse entered pause button"))
+	pause_button.mouse_exited.connect(func(): print("Mouse exited pause button"))
+	
+	print("Pause button created at position: ", pause_button.global_position)
+	print("Pause button size: ", pause_button.size)
+	print("UI Layer: ", ui_layer.layer)
 
 func _increase_score():
 	score += 1
 	if score_label:
 		score_label.text = "Score: " + str(score)
 	
+	# Check if score reached 2500 to change scene
+	if score >= 100:
+		print("Score reached 2500! Changing to main_scene2...")
+		get_tree().paused = false  # Unpause before changing scene
+		get_tree().change_scene_to_file("res://Scene/missionComplete1.tscn")
+		return
+	
 	# Increase game speed every 100 points
 	if score % 100 == 0:
-		game_speed += 0.1
+		game_speed += 0.2  # Changed from 0.1 to 0.2
 		print("Game speed increased to: ", game_speed)
+		
+		# Update obstacle spawner timing if it exists
+		if obstacle_spawner and obstacle_spawner.has_method("increase_speed"):
+			obstacle_spawner.increase_speed(game_speed)
+		
+		# Make all current obstacles go faster
+		get_tree().call_group("obstacles", "set_speed", base_obstacle_speed * game_speed)
 
 func get_current_obstacle_speed():
 	return base_obstacle_speed * game_speed
@@ -86,6 +125,7 @@ func _on_pause_pressed():
 	# Create pause menu container
 	pause_menu_container = Control.new()
 	pause_menu_container.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_menu_container.set_meta("is_pause_menu", true)  # Mark it for identification
 	ui_layer.add_child(pause_menu_container)
 	
 	# Create dark overlay
@@ -148,13 +188,28 @@ func _on_resume_pressed():
 
 func _on_restart_pressed():
 	print("Restarting game...")
+	
+	# Force remove all UI elements
+	if ui_layer and is_instance_valid(ui_layer):
+		ui_layer.queue_free()
+		ui_layer = null
+	
+	# Also try to find and remove any lingering UI layers
+	var existing_ui = get_parent().get_node_or_null("UILayer")
+	if existing_ui:
+		existing_ui.queue_free()
+	
+	# Unpause the game
 	get_tree().paused = false
+	
+	# Reload the scene immediately
 	get_tree().reload_current_scene()
 
 func _on_main_menu_pressed():
 	print("Going to main menu...")
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scene/main_scene.tscn")
+	get_tree().change_scene_to_file("res://Scene/mainmenu.tscn")
+	print("Add your main menu scene path above")
 
 func _show_game_over_menu():
 	# Hide pause button when game over
@@ -216,7 +271,23 @@ func _show_game_over_menu():
 
 # Handle ESC key for pause
 func _input(event):
+	# Debug mouse clicks
+	if event is InputEventMouseButton and event.pressed:
+		print("Mouse clicked at: ", event.position)
+		if pause_button and pause_button.visible:
+			var button_rect = Rect2(pause_button.global_position, pause_button.size)
+			print("Button rect: ", button_rect)
+			if button_rect.has_point(event.position):
+				print("Click is within button bounds!")
+	
 	if event.is_action_pressed("ui_cancel") and not get_tree().paused:
 		_on_pause_pressed()
 	elif event.is_action_pressed("ui_cancel") and get_tree().paused and pause_menu_container:
 		_on_resume_pressed()
+
+func _exit_tree():
+	# Clean up when scene is being freed
+	if pause_menu_container and is_instance_valid(pause_menu_container):
+		pause_menu_container.queue_free()
+	if ui_layer and is_instance_valid(ui_layer):
+		ui_layer.queue_free()
