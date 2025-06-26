@@ -1,0 +1,188 @@
+[gd_scene load_steps=35 format=3 uid="uid://rvf1frv40eyt"]
+
+[ext_resource type="Script" uid="uid://hljdkkwms7ol" path="res://Scripts/SecondScene/GameManager2.gd" id="1_5n27t"]
+[ext_resource type="Texture2D" uid="uid://8kwxupbystpt" path="res://Assets/background/PNG/game_background_3/game_background_3.1.png" id="2_5n27t"]
+[ext_resource type="Script" uid="uid://3ywxw3rrlxnm" path="res://Scripts/Player.gd" id="3_lg5ck"]
+[ext_resource type="Texture2D" uid="uid://bw03ykmauiigk" path="res://Assets/character/Dead (1).png" id="4_dymr3"]
+[ext_resource type="Texture2D" uid="uid://do33831vah18" path="res://Assets/character/Dead (3).png" id="5_nicl0"]
+[ext_resource type="Texture2D" uid="uid://cfdtha0ulgyvr" path="res://Assets/character/Dead (5).png" id="6_n3oyb"]
+[ext_resource type="Texture2D" uid="uid://5tuqfd0dnkpk" path="res://Assets/character/Dead (7).png" id="7_dywno"]
+[ext_resource type="Texture2D" uid="uid://cfqavdk6w5mq4" path="res://Assets/character/Dead (9).png" id="8_6kps7"]
+[ext_resource type="Texture2D" uid="uid://cpexdld01ns4d" path="res://Assets/character/Dead (11).png" id="9_e8sbu"]
+[ext_resource type="Texture2D" uid="uid://uupjenbdbmt1" path="res://Assets/character/Dead (13).png" id="10_fdpcn"]
+[ext_resource type="Texture2D" uid="uid://dea4n0hj7vdmw" path="res://Assets/character/Dead (14).png" id="11_66851"]
+[ext_resource type="Texture2D" uid="uid://tf6p1d0p3ide" path="res://Assets/character/Dead (15).png" id="12_p5aqc"]
+[ext_resource type="Texture2D" uid="uid://kc262mm47ia" path="res://Assets/character/Jump (1).png" id="13_wgmtj"]
+[ext_resource type="Texture2D" uid="uid://ngpdnnvp61j6" path="res://Assets/character/Jump (3).png" id="14_cp31a"]
+[ext_resource type="Texture2D" uid="uid://chjgshbkwqggm" path="res://Assets/character/Jump (5).png" id="15_eihpn"]
+[ext_resource type="Texture2D" uid="uid://dcnigmtkobiqw" path="res://Assets/character/Jump (7).png" id="16_b3dbn"]
+[ext_resource type="Texture2D" uid="uid://bntgtlhn8dfao" path="res://Assets/character/Jump (9).png" id="17_lrjpx"]
+[ext_resource type="Texture2D" uid="uid://hcdktrby64s6" path="res://Assets/character/Jump (11).png" id="18_53dx1"]
+[ext_resource type="Texture2D" uid="uid://db6awrt703edg" path="res://Assets/character/Jump (13).png" id="19_eryg0"]
+[ext_resource type="Texture2D" uid="uid://bgtdb3fy7qbgt" path="res://Assets/character/Jump (15).png" id="20_um34m"]
+[ext_resource type="Texture2D" uid="uid://4c57h5ol7m2r" path="res://Assets/character/Run (1).png" id="21_67iud"]
+[ext_resource type="Texture2D" uid="uid://gml3ayr3evf" path="res://Assets/character/Run (3).png" id="22_hwdqd"]
+[ext_resource type="Texture2D" uid="uid://bxmwpfffdd2h8" path="res://Assets/character/Run (5).png" id="23_0wk16"]
+[ext_resource type="Texture2D" uid="uid://ddkhxi7x1iicn" path="res://Assets/character/Run (7).png" id="24_uul55"]
+[ext_resource type="Texture2D" uid="uid://bpc0ve7mt71bc" path="res://Assets/character/Run (9).png" id="25_78iv3"]
+[ext_resource type="Texture2D" uid="uid://eb2l0wod47tb" path="res://Assets/character/Run (11).png" id="26_7n1kk"]
+[ext_resource type="Texture2D" uid="uid://cma0oly2qa0m7" path="res://Assets/character/Run (13).png" id="27_65gq0"]
+[ext_resource type="Texture2D" uid="uid://syvu4vlium6o" path="res://Assets/character/Run (15).png" id="28_ybgoi"]
+[ext_resource type="Script" uid="uid://dfmd34xli3oxi" path="res://Scripts/SecondScene/ObstacleSpawner2.gd" id="29_vtpc2"]
+[ext_resource type="PackedScene" uid="uid://b20vvvxnc7g30" path="res://Scene/Obstacle2.tscn" id="30_5n27t"]
+[ext_resource type="Script" uid="uid://hoc26oxc6ytq" path="res://Scripts/SecondScene/ScrollingFloor2.gd" id="30_vtpc2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4qrl"]
+size = Vector2(1174, 61)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_31fxm"]
+radius = 33.0
+height = 114.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kghrr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_dymr3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nicl0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n3oyb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_dywno")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6kps7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_e8sbu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_fdpcn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_66851")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_p5aqc")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 13.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_wgmtj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cp31a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_eihpn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_b3dbn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_lrjpx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_53dx1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_eryg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_um34m")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_67iud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_hwdqd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_0wk16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_uul55")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_78iv3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_7n1kk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_65gq0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_ybgoi")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[node name="MainScene2" type="Node2D"]
+script = ExtResource("1_5n27t")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(583, 330)
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1750, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(309, -109)
+scale = Vector2(0.935417, 1.02037)
+texture = ExtResource("2_5n27t")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(606, 632)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-41, 4)
+shape = SubResource("RectangleShape2D_j4qrl")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(131, 542)
+collision_mask = 3
+script = ExtResource("3_lg5ck")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-1, 3)
+shape = SubResource("CapsuleShape2D_31fxm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(58, -7.00001)
+scale = Vector2(0.361564, 0.315603)
+sprite_frames = SubResource("SpriteFrames_kghrr")
+animation = &"jump"
+
+[node name="ObstacleSpawner" type="Node2D" parent="."]
+position = Vector2(-5, 6)
+script = ExtResource("29_vtpc2")
+obstacle_scene = ExtResource("30_5n27t")
+
+[node name="ScrollingFloor" type="Node2D" parent="."]
+position = Vector2(559, 777)
+script = ExtResource("30_vtpc2")
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 933.0
+offset_top = -12.0
+offset_right = 1190.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1

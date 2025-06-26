@@ -1,10 +1,9 @@
-[gd_scene load_steps=37 format=3 uid="uid://ebrqkki2iuhp"]
+[gd_scene load_steps=36 format=3 uid="uid://ebrqkki2iuhp"]
 
-[ext_resource type="Script" uid="uid://b6kbaq8pvdl7x" path="res://Scripts/GameManager.gd" id="1_kghrr"]
+[ext_resource type="Script" uid="uid://b6kbaq8pvdl7x" path="res://Scripts/FirstScene/GameManager.gd" id="1_kghrr"]
 [ext_resource type="Script" uid="uid://3ywxw3rrlxnm" path="res://Scripts/Player.gd" id="1_n874j"]
-[ext_resource type="Script" uid="uid://bbe8kmsgfaip6" path="res://Scripts/PauseButton.gd" id="1_orc3d"]
 [ext_resource type="Texture2D" uid="uid://bw03ykmauiigk" path="res://Assets/character/Dead (1).png" id="2_jako7"]
-[ext_resource type="Script" uid="uid://dhuo4a6jyiaps" path="res://Scripts/ObstacleSpawner.gd" id="2_p1ykx"]
+[ext_resource type="Script" uid="uid://dhuo4a6jyiaps" path="res://Scripts/FirstScene/ObstacleSpawner.gd" id="2_p1ykx"]
 [ext_resource type="Texture2D" uid="uid://do33831vah18" path="res://Assets/character/Dead (3).png" id="3_o1xxl"]
 [ext_resource type="Texture2D" uid="uid://cfdtha0ulgyvr" path="res://Assets/character/Dead (5).png" id="4_s6rbu"]
 [ext_resource type="Texture2D" uid="uid://5tuqfd0dnkpk" path="res://Assets/character/Dead (7).png" id="5_1u1ew"]
@@ -29,10 +28,21 @@
 [ext_resource type="Texture2D" uid="uid://db6awrt703edg" path="res://Assets/character/Jump (13).png" id="17_5qxgh"]
 [ext_resource type="Texture2D" uid="uid://bgtdb3fy7qbgt" path="res://Assets/character/Jump (15).png" id="18_2r077"]
 [ext_resource type="Texture2D" uid="uid://syvu4vlium6o" path="res://Assets/character/Run (15).png" id="18_qfgnl"]
-[ext_resource type="Script" uid="uid://yc3qufy51bl7" path="res://Scripts/ParallaxBackground2.gd" id="32_fj27t"]
-[ext_resource type="Script" uid="uid://b8ls68d5lh12d" path="res://Scripts/ScrollingFloor.gd" id="32_n874j"]
+[ext_resource type="Script" uid="uid://b8ls68d5lh12d" path="res://Scripts/FirstScene/ScrollingFloor.gd" id="32_n874j"]
 [ext_resource type="Texture2D" uid="uid://y303d7dlvkwn" path="res://Assets/background/PNG/game_background_1/game_background_1.png" id="33_n874j"]
 [ext_resource type="PackedScene" uid="uid://ci6rlk7q0ns8m" path="res://Scene/Obstacle.tscn" id="36_2r077"]
+
+[sub_resource type="GDScript" id="GDScript_r1w07"]
+script/source = "#ParallaxBackground2.gd
+extends ParallaxBackground
+
+# Scroll speed for the background
+@export var scroll_speed = 50.0  # Pixels per second
+
+func _process(delta):
+	# Move the background left
+	scroll_offset.x -= scroll_speed * delta
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j4qrl"]
 size = Vector2(1174, 61)
@@ -135,9 +145,10 @@ animations = [{
 }]
 
 [node name="MainScene" type="Node2D"]
+script = ExtResource("1_kghrr")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-script = ExtResource("32_fj27t")
+script = SubResource("GDScript_r1w07")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2(583, 330)
@@ -188,11 +199,3 @@ offset_bottom = 90.0
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="GameManager" type="Node" parent="."]
-script = ExtResource("1_kghrr")
-
-[node name="PauseMenu" type="CanvasLayer" parent="."]
-process_mode = 2
-layer = 13
-script = ExtResource("1_orc3d")

@@ -1,4 +1,3 @@
-#Obstacle.gd
 extends Area2D
 
 var speed = 400.0
@@ -6,8 +5,11 @@ var speed = 400.0
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
 
-# Your animation names
-var animation_names = ["ground1", "ground2", "flying1", "flying2"]
+# Expanded animation names
+var animation_names = [
+	"ground1", "ground2",
+	"flying1", "flying2"
+]
 
 var current_type = 0
 var is_flying_type = false
@@ -28,7 +30,7 @@ func _ready():
 func set_sprite_type(index: int):
 	"""Called by spawner to set which animation to play"""
 	current_type = index
-	is_flying_type = (index >= 2)  # flying1 and flying2 are flying types
+	is_flying_type = (index >= 2)  # Indices 4 and above are flying types
 	
 	# Wait for node to be ready if needed
 	if not is_node_ready():
