@@ -1,3 +1,4 @@
+#ParallaxBackground.gd
 extends ParallaxBackground
 
 # Base scroll speed (pixels per second)

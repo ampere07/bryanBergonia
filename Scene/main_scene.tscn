@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b6kbaq8pvdl7x" path="res://Scripts/GameManager.gd" id="1_kghrr"]
 [ext_resource type="Script" uid="uid://3ywxw3rrlxnm" path="res://Scripts/Player.gd" id="1_n874j"]
-[ext_resource type="Script" uid="uid://bbe8kmsgfaip6" path="res://Scene/PauseButton.gd" id="1_orc3d"]
+[ext_resource type="Script" uid="uid://bbe8kmsgfaip6" path="res://Scripts/PauseButton.gd" id="1_orc3d"]
 [ext_resource type="Texture2D" uid="uid://bw03ykmauiigk" path="res://Assets/character/Dead (1).png" id="2_jako7"]
 [ext_resource type="Script" uid="uid://dhuo4a6jyiaps" path="res://Scripts/ObstacleSpawner.gd" id="2_p1ykx"]
 [ext_resource type="Texture2D" uid="uid://do33831vah18" path="res://Assets/character/Dead (3).png" id="3_o1xxl"]
@@ -136,9 +136,6 @@ animations = [{
 
 [node name="MainScene" type="Node2D"]
 
-[node name="PauseMenuSystem" type="CanvasLayer" parent="."]
-script = ExtResource("1_orc3d")
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 script = ExtResource("32_fj27t")
 
@@ -194,3 +191,8 @@ vertical_alignment = 1
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_kghrr")
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 2
+layer = 13
+script = ExtResource("1_orc3d")

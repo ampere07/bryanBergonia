@@ -1,3 +1,4 @@
+#ObstacleSpawner.gd
 extends Node2D
 
 @export var obstacle_scene: PackedScene

@@ -1,3 +1,4 @@
+#Obstacle.gd
 extends Area2D
 
 var speed = 400.0

@@ -1,3 +1,4 @@
+#ParallaxBackground2.gd
 extends ParallaxBackground
 
 # Scroll speed for the background
